@@ -1,0 +1,55 @@
+
+body, p, h1,h2,h3,h4 {font-family:'Montserrat', 'Helvetica Neue','Roboto', sans-serif !important; }
+body{background:#111;position:relative;}
+.center {text-align:center;}
+h1.title {font-weight:900; z-index:2;line-height:30px; text-align:center; background:rgba(0,0,0,.65); height:48px; position:absolute;top:0; left:0; width:100%; font-size:18px; color:#FFF;text-transform:uppercase;font-family:'Montserrat'; margin:0; padding:10px 0;}
+.light {color:#d57521; font-weight:400;}
+.parkin{color:#D57521; border:2px solid #D57521; display:none;width:28px; height:28px;line-height:25px;text-align:center;border-radius:50%;}
+.title .btns {
+  position:absolute;
+  left:0;top:4px;
+  display:inline-block;
+  z-index:9;
+}
+.title .btns .btn {position:relative;z-index:9;}
+.btn.btn-light {color:#FFF; outline:none !important;border-radius:0;box-shadow:none;}
+.btn.btn-light:active, .btn.btn-light:hover, .btn.btn-light:focus {color:#ddd;}
+.btn.btn-light.activated {color:#4acf69;}
+
+html, body, #map { height: 100%; margin: 0; padding: 0;}
+
+#map {
+  width:100%;min-height:500px;
+}
+  
+
+
+
+@-webkit-keyframes rotating {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.ion-load-d{
+  font-size:120%;
+  line-height:1;
+  transform-origin:50% 49%;
+  animation: rotating 1s linear infinite;
+  -webkit-animation: rotating 1s linear infinite;
+}
+
+.infowin h3 {font-size:15px;margin:0;padding:0 0 10px;}
+.infowin span {color:#888;font-size:20px;}
+.infowin span:before {color: #D57521;}
