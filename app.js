@@ -58,14 +58,16 @@ app
     
     // Locate
     $scope.locateMe = function() {
+      ga('send', 'event', 'geo', 'btn')
       $scope.loading = true;
       if(!marker||!marker.getMap()){
+        ga('send', 'event', 'geo', 'on')
         getLocation(showPosition);
         //refresh = $interval(function() {
         //   getLocation(showPosition);
         //},interval)
       }else {
-        
+        ga('send', 'event', 'geo', 'off')
         marker.setMap(null);
         _.map(radius,function(r){
           r.setMap(null)
@@ -85,6 +87,7 @@ app
     console.log('enable geolocation')
     delete $scope.loading 
     delete $scope.active 
+    ga('send', 'event', 'geo', 'disabled')
   }
 
   // get geolocation
@@ -96,6 +99,7 @@ app
          console.log("Geolocation is not supported by this browser." );
          delete $scope.loading 
          delete $scope.active 
+         ga('send', 'event', 'geo', 'not-supported')
       }
       
   }
@@ -106,6 +110,7 @@ app
     var coords = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
     map.setCenter(coords)
     createMe(coords);
+    ga('send', 'event', 'geo', 'locate')
     $timeout(function() {
       $scope.active = true;
       delete $scope.loading
