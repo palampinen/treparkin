@@ -9,7 +9,7 @@ app
 
     // variables
     var interval = 10000;
-    var map,me,marker,refresh,radius=[];
+    var map,marker,geoLoc,refresh,radius=[];
     var meIcon = {
       url: 'green.png',
       size: new google.maps.Size(22,22),
@@ -61,18 +61,19 @@ app
       $scope.loading = true;
       if(!marker||!marker.getMap()){
         getLocation(showPosition);
-        refresh = $interval(function() {
-          getLocation(showPosition);
-        },interval)
+        //refresh = $interval(function() {
+        //   getLocation(showPosition);
+        //},interval)
       }else {
         
         marker.setMap(null);
         _.map(radius,function(r){
           r.setMap(null)
         })
-        if(angular.isDefined(refresh)){
-          $interval.cancel(refresh);
-          refresh=undefined;
+        if(angular.isDefined(refresh) && angular.isDefined(geoLoc)){
+          geoLoc.clearWatch(refresh)
+          //$interval.cancel(refresh);
+          //refresh=undefined;
         }
         delete $scope.active
         delete $scope.loading 
@@ -89,7 +90,8 @@ app
   // get geolocation
   function getLocation(cb) {
       if (navigator.geolocation) { 
-          navigator.geolocation.getCurrentPosition(cb,error,{ enableHighAccuracy: true,timeout: 5000,maximumAge: 0});
+          geoLoc = navigator.geolocation;
+          refresh = geoLoc.watchPosition(cb,error,{ enableHighAccuracy: true,timeout: 10000,maximumAge: 0});
       } else { 
          console.log("Geolocation is not supported by this browser." );
          delete $scope.loading 
@@ -100,6 +102,7 @@ app
   
   // Callback for getLocation
   function showPosition(position) {
+    console.log(position)
     var coords = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
     map.setCenter(coords)
     createMe(coords);
@@ -134,7 +137,6 @@ app
           radiusIn = radiusOptions.radius,
           opacityIn = radiusOptions.strokeOpacity;
       _.times(5,function(i){
-        console.log(i)
         radiusOptionsIn.radius =  radiusIn * (i+1);
         radiusOptionsIn.strokeOpacity =  opacityIn / (i+1);
         radius.push(
@@ -167,6 +169,7 @@ app
         event.latLng,
         event.feature.getProperty('MUUTA'),
         event.feature.getProperty('PAIKKOJEN_LUKUMAARA'),
+        event.feature.getProperty('HINTA'),
         event.feature.getProperty('KOHDETYYPPI') == 'P'
         )
     });
@@ -174,11 +177,17 @@ app
   }
   
   
-  function showInfoWindow(position,title,count,showTitle) {
+  function showInfoWindow(position,title,count,price,showTitle) {
     infowindow.setPosition(position)
     var content = '<div class="infowin">';
     if(showTitle) content +='<h3>'+title+'</h3>';
-    content += '<span class="ion-android-car"> '+count+'</span></div>';
+    content += '<span class="ion-android-car"> '+count+'</span>';
+    if(!showTitle) {
+      content += '<br /><span class="price">';
+      content += price? '<span>€/h</span> '+price : 'Ilmainen';
+      content += '</span>';
+    } ;
+    content += '</div>';
     
     infowindow.setContent(content)
     infowindow.open(map)

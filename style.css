@@ -52,4 +52,5 @@ html, body, #map { height: 100%; margin: 0; padding: 0;}
 
 .infowin h3 {font-size:15px;margin:0;padding:0 0 10px;}
 .infowin span {color:#888;font-size:20px;}
-.infowin span:before {color: #D57521;}
+.infowin span:before {color: #D57521;width:32px;}
+.infowin .price span {color: #D57521; display:inline-block;width:32px; font-weight:bolder;}
