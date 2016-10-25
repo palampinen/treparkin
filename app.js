@@ -4,7 +4,7 @@ app
 .run(function() {
   FastClick.attach(document.body);
 })
-.constant('API','http://tampere.navici.com/tampere_wfs_geoserver/opendata/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=opendata:KESKUSTAN_PYSAKOINTI_VIEW&outputFormat=json&srsName=EPSG:4326')
+.constant('API','http://opendata.navici.com/tampere/opendata/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=opendata:KESKUSTAN_PYSAKOINTI_VIEW&outputFormat=json')
 .controller('MainCtrl', function($scope,$timeout,API,$interval) {
 
     // variables
